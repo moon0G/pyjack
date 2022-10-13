@@ -42,10 +42,10 @@ for x in hand:
 
 #display cards
 print(dealer_card)
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[0]][0]).convert(), pos[0])
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[1]][0]).convert(), pos[1])
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[dealer_card[0]][0]).convert(), pos[3])
-screen.blit(pygame.image.load(dir + '/cards/cardback.gif').convert(), pos[4])
+screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[0]][0]).convert(), pos[0]) # first card
+screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[1]][0]).convert(), pos[1]) # second card
+screen.blit(pygame.image.load(dir + '/cards/' + card_data[dealer_card[0]][0]).convert(), pos[3]) # dealers card
+screen.blit(pygame.image.load(dir + '/cards/cardback.gif').convert(), pos[4]) # the other of dealers card turned
 
 
 if val > 21: 
@@ -53,7 +53,9 @@ if val > 21:
 else:
     screen.blit(font.render(f'{val}', False, (255, 255, 255)), pos[2])
 
+
 screen.blit(font.render('Dealer', False, (255, 255, 255)), pos[4])
+
 
 pygame.display.flip()
 
