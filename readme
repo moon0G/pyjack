@@ -1,6 +1,7 @@
 ### TODO:
 	- Create stack {complete}
-	- Dealer class {1/2} 
+	- Dealer class {2/2} 
 		- Shuffle function {complete}
-		- Evaluate function {incomplete}
-	
+	- Server class {1.5/2}
+		- handle_connection {complete}
+		- error: with the conn object in slave thread
