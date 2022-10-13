@@ -43,6 +43,8 @@ while True:
         server.lock.acquire()
         print(f"new connection: {addr}")
         start_new_thread(server.handle_connection, (conn, hands.pop(), dealer_deck[0])) 
+        
+        iteration += 1
     else:
        break  
 
