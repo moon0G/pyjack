@@ -1,14 +1,14 @@
-from modl import rules
 import os
 import random
-import pygame
-from pygame.locals import *
 import socket
 
+import pygame
+from pygame.locals import *
+
+from modl import rules
 
 dir = os.path.dirname(os.path.realpath(__file__))
 host_port = ('127.0.0.1', 3000)
-pos = [(50, 100), (100, 100), (70, 200), (200, 100), (250, 100), (225, 200)]
 
 
 cards = rules.cards()
@@ -42,19 +42,19 @@ for x in hand:
 
 #display cards
 print(dealer_card)
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[0]][0]).convert(), pos[0]) # first card
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[1]][0]).convert(), pos[1]) # second card
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[dealer_card[0]][0]).convert(), pos[3]) # dealers card
-screen.blit(pygame.image.load(dir + '/cards/cardback.gif').convert(), pos[4]) # the other of dealers card turned
+screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[0]][0]).convert(), (50, 100)) # first card
+screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[1]][0]).convert(), (150, 100)) # second card
+screen.blit(pygame.image.load(dir + '/cards/' + card_data[dealer_card[0]][0]).convert(), (250, 100)) # dealers card
+screen.blit(pygame.image.load(dir + '/cards/cardback.gif').convert(), (350, 100)) # the other of dealers card turned
 
 
 if val > 21: 
-    screen.blit(font.render('Game Over', False, (255, 255, 255)), pos[2])
+    screen.blit(font.render('Game Over', False, (255, 255, 255)), (170, 200))
 else:
-    screen.blit(font.render(f'{val}', False, (255, 255, 255)), pos[2])
+    screen.blit(font.render(f'{val}', False, (255, 255, 255)), (170, 200))
 
 
-screen.blit(font.render('Dealer', False, (255, 255, 255)), pos[4])
+screen.blit(font.render('Dealer', False, (255, 255, 255)), (300, 200))
 
 
 pygame.display.flip()

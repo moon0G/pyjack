@@ -54,18 +54,20 @@ class server:
 
     def handle_connection(self, conn, hand, dealer_deck):
         while True:
+            try:
                 data = str(conn.recv(1024).decode(encoding="utf-8"))
-                
-                
+   
                 if data == "GET HAND":
                     out = ""    
                     for x in hand:
                         out += x + ' '
                     conn.send(out.encode())
                     conn.send(dealer_deck.encode())
-                     
-                self.lock.release()
-                conn.close()
+            except:
+                break
+
+        self.lock.release()
+        conn.close()
             
 
 
