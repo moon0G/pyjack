@@ -10,7 +10,7 @@ from modl import action
 from modl import datastructure as ds
 from modl import rules
 
-host_sock = ('127.0.0.1', 3000) # bind socket
+host_sock = ('', 3000) # bind socket
 dealer_sock = socket.socket()
 dealer_sock.bind(host_sock)
 
@@ -79,7 +79,7 @@ while stat:
     try:
         dealer_sock.listen(1)
         conn, addr = dealer_sock.accept()
-        
+
         server.lock.acquire()
         print(f"new connection: {addr}")
         threading.Thread(target=server.handle_connection, args=(conn, hands.pop(), dealer_deck[0]), daemon=True).start() # start daemonic thread

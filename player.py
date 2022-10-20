@@ -8,7 +8,7 @@ from pygame.locals import *
 from modl import rules
 
 dir = os.path.dirname(os.path.realpath(__file__))
-host_port = ('127.0.0.1', 3000)
+host_port = ('', 3000)
 
 
 cards = rules.cards()
