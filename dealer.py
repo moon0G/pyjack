@@ -72,18 +72,18 @@ pygame.display.flip()
 
 stat = True
 while stat:
-    #for i in pygame.event.get():
-    #    if i.type == pygame.QUIT:
-    #        stat = False  
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            stat = False
     
     try:
         dealer_sock.listen(1)
         conn, addr = dealer_sock.accept()
-       
+        
         server.lock.acquire()
         print(f"new connection: {addr}")
-        start_new_thread(server.handle_connection, (conn, hands.pop(), dealer_deck[0])) 
-        
+        threading.Thread(target=server.handle_connection, args=(conn, hands.pop(), dealer_deck[0]), daemon=True).start() # start daemonic thread
+
     except:
         pass
 
