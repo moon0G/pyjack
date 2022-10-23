@@ -2,6 +2,10 @@
 	- Create stack {complete}
 	- Dealer class {2/2} 
 		- Shuffle function {complete}
-	- Server class {1.5/2}
+	- Server class {2/2}
 		- handle_connection {complete}
 		- error: with the conn object in slave thread
+
+	- Hit for card
+	- Gambling
+	

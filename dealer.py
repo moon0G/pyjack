@@ -9,8 +9,9 @@ import pygame
 from modl import action
 from modl import datastructure as ds
 from modl import rules
+from modl import gui
 
-host_sock = ('', 3000) # bind socket
+host_sock = ('10.49.230.44', 3000) # bind socket
 dealer_sock = socket.socket()
 dealer_sock.bind(host_sock)
 
@@ -43,10 +44,6 @@ deck.reinit(new_deck)
 dealer_deck = hands.pop() # pop out the dealers deck
 
 
-pygame.init()
-screen = pygame.display.set_mode((640, 360))
-font = pygame.font.SysFont('Calibri', 30)
-
 
 val = 0
 for x in dealer_deck:
@@ -58,24 +55,13 @@ for x in dealer_deck:
         else:
             val += card_data[x][1][1]
 
+print(dealer_deck)
+gui = gui.dealergui((640, 360), dir)
+threading.Thread(target=gui.run, args=(dealer_deck, val), daemon=True).start()
 
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[dealer_deck[0]][0]).convert(), (50, 100))
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[dealer_deck[1]][0]).convert(), (150, 100))
-
-
-if val > 21:
-    screen.blit(font.render('Game Over', False, (255, 255, 255)), (170, 200))
-else:
-    screen.blit(font.render(f'{val}', False, (255, 255, 255)), (170, 200))
-
-pygame.display.flip()
 
 stat = True
 while stat:
-    for i in pygame.event.get():
-        if i.type == pygame.QUIT:
-            stat = False
-    
     try:
         dealer_sock.listen(1)
         conn, addr = dealer_sock.accept()
@@ -88,5 +74,4 @@ while stat:
         pass
 
 dealer_sock.close()
-pygame.quit()
 quit()
