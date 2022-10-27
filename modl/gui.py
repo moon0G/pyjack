@@ -1,4 +1,5 @@
 import pygame
+import time
 from pygame.locals import *
 
 class dealergui:
@@ -10,7 +11,8 @@ class dealergui:
         self.dir = dir
 
     def __load(self, cards: list, card_val: int) -> None:
-        self.screen.blit(pygame.image.load(self.dir + '/cards/' + cards[0] + '.gif').convert(), (50, 100))
+        print(cards[0])
+        self.screen.blit(pygame.image.load(self.dir + '/cards/' + cards[0] + '.gif').convert(), (100, 100))
         self.screen.blit(pygame.image.load(self.dir + '/cards/' + cards[1] + '.gif').convert(), (50, 100))
 
         if card_val > 21:
@@ -27,11 +29,12 @@ class dealergui:
 
         stat = True
         while stat:
-            for i in pygame.event.get():
+            events = pygame.event.get()
+            for i in events:
                 if i.type == pygame.QUIT:
                     stat = False
-                    break
 
-            pygame.display.flip()
+            #pygame.display.flip()
+            #time.sleep(60/1000)
 
     
