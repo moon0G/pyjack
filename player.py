@@ -1,36 +1,37 @@
 import os
 import random
-import socket
 
 import pygame
-from pygame.locals import *
 
+from modl import action
+from modl import datastructure as ds
 from modl import rules
+from modl import gui
+
 
 dir = os.path.dirname(os.path.realpath(__file__))
-host_port = ('10.49.230.44', 3000)
-
-
 cards = rules.cards()
 card_data = cards.new()
+dealer = action.dealer(card_data)
+gui = gui.gui(dir)
 
 
-client_sock = socket.socket()
-client_sock.connect(host_port)
+deck = ds.array(52) # stack for the deck; simulating actual deck of cards
+for key in card_data.keys(): # 
+    if key != "cardback":
+        deck.apnd(key)
 
+for x in range(1, random.randint(1, 50)): # shuffle deck
+    deck.reinit(dealer.shuffle(deck.array)) 
 
-pygame.init()
-screen = pygame.display.set_mode((640, 360))
-font = pygame.font.SysFont('Calibri', 30)
+hands, new_deck = dealer.deal(deck.array, 1)
+deck.reinit(new_deck)
 
-
-client_sock.send(b'GET HAND')
-hand = client_sock.recv(1024).decode().split()
-dealer_card = client_sock.recv(1024).decode().split()
-
+player_hand = hands.pop()
+dealer_hand = hands.pop()
 
 val = 0
-for x in hand:
+for x in dealer_hand:
     try:
         val += card_data[x][1]
     except:
@@ -39,32 +40,18 @@ for x in hand:
         else:
             val += card_data[x][1][1]
 
-
-#display cards
-print(dealer_card)
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[0]][0]).convert(), (50, 100)) # first card
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[hand[1]][0]).convert(), (150, 100)) # second card
-screen.blit(pygame.image.load(dir + '/cards/' + card_data[dealer_card[0]][0]).convert(), (250, 100)) # dealers card
-screen.blit(pygame.image.load(dir + '/cards/cardback.gif').convert(), (350, 100)) # the other of dealers card turned
-
-
-if val > 21: 
-    screen.blit(font.render('Game Over', False, (255, 255, 255)), (170, 200))
+if val > 21:
+    gui.display("Game Over", dealer_hand, player_hand)
 else:
-    screen.blit(font.render(f'{val}', False, (255, 255, 255)), (170, 200))
+    gui.display(val, dealer_hand, player_hand)
+
+stat = True
+while stat:
+    for event in gui.e(): # quit is handled by class
+        print(event)
+        if str(event) == '<Event(256-Quit {})>':
+            stat = False
+            break
 
 
-screen.blit(font.render('Dealer', False, (255, 255, 255)), (300, 200))
-
-
-pygame.display.flip()
-
-
-status = True
-while (status):
-    for i in pygame.event.get():
-        if i.type == pygame.QUIT:
-            status = False
- 
-pygame.quit()
-
+gui.quit()

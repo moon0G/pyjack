@@ -46,28 +46,3 @@ class dealer:
         hand.append(deck.pop())
 
         return hand, deck
-        
-
-class server:
-    def __init__(self, lock):
-        self.lock = lock  
-
-    def handle_connection(self, conn, hand, dealer_deck):
-        while True:
-            try:
-                data = str(conn.recv(1024).decode(encoding="utf-8"))
-   
-                if data == "GET HAND":
-                    out = ""    
-                    for x in hand:
-                        out += x + ' '
-                    conn.send(out.encode())
-                    conn.send(dealer_deck.encode())
-            except:
-                break
-
-        self.lock.release()
-        conn.close()
-            
-
-
