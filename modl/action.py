@@ -1,6 +1,9 @@
+import random
+
 class dealer:
-    def __init__(self, cards):
+    def __init__(self, cards, dir):
         self.cards = cards
+        self.dir = dir + '/'
 
     def shuffle(self, deck):
         buffer_one = []
@@ -24,7 +27,8 @@ class dealer:
             else:
                 deck[x] = buffer_one[c_one]
                 c_one += 1
-                  
+
+        random.shuffle(deck)   
         return deck
         
     def deal(self, deck, amount_players):
@@ -42,7 +46,39 @@ class dealer:
         
         return (hands, deck)
 
-    def hit(self, deck, hand):
-        hand.append(deck.pop())
+    def hit(self, deck):
+        card = deck.pop()
 
-        return hand, deck
+        return card, deck
+
+    def calculate_weight(self, hand, card_data) -> int:
+        val = 0
+        
+        for i in hand:
+            if 'a' in i:
+                if val + 11 <= 21:
+                    val += 11
+                else:
+                    val += 1
+            else:
+                val += card_data[i][1]
+
+        return val
+    
+    def win_condition(self, a: int, b: int):
+        if a > b:
+            return True
+        else:
+            return False
+    
+    def write_out(self, fn, time, money):
+        with open(self.dir + fn, 'r') as f:
+            cont = f.read()
+
+        with open(self.dir + fn, "w") as f:
+            try:
+                f.write(cont + f"\nUser @ {time} - - {['Lost', 'Won'][money > 0]} {[money, money*-1][money < 0]}")
+            except:
+                pass
+
+            f.close()
